@@ -8,7 +8,8 @@ public class Launcher {
         List<Command> commands = List.of(
                 new Quit(),
                 new Fibo(),
-                new Freq()
+                new Freq(),
+                new Predict()
         );
 
         Scanner scanner = new Scanner(System.in);
