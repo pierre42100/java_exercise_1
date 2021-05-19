@@ -25,7 +25,7 @@ public class Freq implements Command {
             return;
         }
 
-        content = content.toLowerCase().replaceAll("[.!?\\-'\"]", " ");
+        content = content.toLowerCase().replaceAll("[.!?\\-'\"\n]", " ");
 
         for (String line : content.split("\n")) {
             if (line.isBlank()) {
