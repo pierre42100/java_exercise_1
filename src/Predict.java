@@ -18,21 +18,12 @@ public class Predict implements Command {
         public String predict() {
             if (occurences.isEmpty())
                 return null;
-            var i = occurences.values()
-                    .stream()
-                    .sorted((a, b) -> Integer.compare(b, a))
-                    .limit(1)
-                    .findFirst();
 
-            if (i.isEmpty())
-                throw new RuntimeException();
+            var i = Collections.max(occurences.values());
 
-            for (var k : this.occurences.keySet()) {
-                if (this.occurences.get(k).equals(i.get()))
-                    return k;
-            }
+            var list = this.occurences.keySet().stream().filter(k -> occurences.get(k).equals(i)).toList();
 
-            return null;
+            return list.get(0);
         }
     }
 
@@ -73,18 +64,25 @@ public class Predict implements Command {
 
         words.putIfAbsent(lastWord, new Word(lastWord));
 
+        /*
+        System.out.println("===");
+        for (var k : words.keySet()) {
+            System.out.println(k + " =>  " + words.get(k).occurences.keySet().stream().map(key -> key + " (" + words.get(k).occurences.get(key) + ")").collect(Collectors.joining(", ")));
+        }
+        System.out.println("===");
+        */
 
         System.out.println("Veuillez maintenant entrer un mot :");
         var startWord = sc.nextLine().toLowerCase();
 
-        if(!words.containsKey(startWord))
+        if (!words.containsKey(startWord))
             System.err.println("Le mot n'est pas présent dans le texte !");
 
         else {
             var sentence = new ArrayList<>(List.of(startWord));
-            while(sentence.size()<20) {
-                var nextWord = words.get(sentence.get(sentence.size()-1)).predict();
-                if(nextWord == null)
+            while (sentence.size() < 20) {
+                var nextWord = words.get(sentence.get(sentence.size() - 1)).predict();
+                if (nextWord == null)
                     break;
                 sentence.add(nextWord);
             }
