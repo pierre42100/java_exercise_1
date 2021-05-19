@@ -75,7 +75,7 @@ public class Predict implements Command {
 
 
         System.out.println("Veuillez maintenant entrer un mot :");
-        var startWord = sc.nextLine();
+        var startWord = sc.nextLine().toLowerCase();
 
         if(!words.containsKey(startWord))
             System.err.println("Le mot n'est pas présent dans le texte !");
