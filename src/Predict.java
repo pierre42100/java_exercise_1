@@ -3,7 +3,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class Predict implements Command {
-    private class Word {
+    private static class Word {
         private final String word;
         private final Map<String, Integer> occurences = new HashMap<>();
 

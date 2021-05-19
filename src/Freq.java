@@ -27,37 +27,25 @@ public class Freq implements Command {
 
         content = content.toLowerCase().replaceAll("[.!?\\-'\"\n]", " ");
 
-        for (String line : content.split("\n")) {
-            if (line.isBlank()) {
-                System.out.println();
-            }
+        Map<String, Integer> freq = new HashMap<>();
 
-            var intermediate = Arrays.stream(line.split(" "))
-                    .filter(r -> !r.isBlank())
-                    .collect(Collectors.groupingBy(g -> g));
+        for (var word : content.split(" ")) {
+            if (word.isBlank()) continue;
 
-            var res = new HashMap<String, Integer>();
-            for (var i : intermediate.keySet()) {
-                res.put(i, intermediate.get(i).size());
-            }
-
-            var keep_lengths = res.values().stream()
-                    .sorted((a, b) -> Integer.compare(b, a))
-                    .limit(3)
-                    .collect(Collectors.toSet());
-
-            List<String> words = new ArrayList<>();
-            for (var e : keep_lengths.stream().sorted((a, b) -> Integer.compare(b, a)).toList()) {
-                for (var k : res.keySet()) {
-                    if (words.size() == 3)
-                        break;
-
-                    if (res.get(k).equals(e))
-                        words.add(k);
-                }
-            }
-
-            System.out.println(String.join(" ", words));
+            freq.putIfAbsent(word, 0);
+            freq.put(word, freq.get(word) + 1);
         }
+
+        List<String> words = new ArrayList<>();
+
+        while(words.size() < 3 && freq.keySet().size() > 0) {
+            int max = Collections.max(freq.values());
+            var keys = freq.keySet().stream().filter(k -> freq.get(k) == max).collect(Collectors.toList());
+            var last = keys.get(keys.size() - 1);
+            words.add(last);
+            freq.remove(last);
+        }
+
+        System.out.println(String.join(" ", words));
     }
 }

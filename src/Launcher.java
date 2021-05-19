@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Launcher {
     public static void main(String[] args) {
-        System.out.println("Hello world");
+        System.out.println("Welcome to the 42java prompt. Do not type help, I would not help you!!!");
 
         List<Command> commands = List.of(
                 new Quit(),
